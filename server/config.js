@@ -3,6 +3,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const { Pool } = pg
 
+const connectionString = process.env.ELEPHANT_URL
+
+const pool = new Pool({
+    connectionString,
+})
+
 // const pool = new Pool({
 //     user: 'joanneturner',
 //     password: 'Joannewit2022',
@@ -11,6 +17,6 @@ const { Pool } = pg
 //     port: '5432'
 // })
 
-const pool = new Pool()
+// const pool = new Pool()
 
 export default pool

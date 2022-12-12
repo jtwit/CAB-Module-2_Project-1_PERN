@@ -45,13 +45,15 @@ const createNewUser = async (req, res) => {
                         else {
                             const token = jwt.sign(
                                 { // payload 
-                                    email: user.email
+                                    email: user.email,
+                                    uid: user.uid
                                 },
                                 process.env.SECRET_KEY
                             );
                             res.status(200).send({
                                 success: true,
                                 email: user.email,
+                                uid: user.uid,
                                 jwt: token,
                             });
                         }
@@ -86,10 +88,9 @@ const createNewUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         const allUsers = await pool.query("SELECT * FROM test")
-        res.status(200).json({
-            msg: "this is all your data",
-            info: allUsers.rows
-        })
+        res.status(200).json(
+            allUsers.rows
+        )
     } catch (err) {
         console.error(err.message)
     }
@@ -99,26 +100,30 @@ const getAllUsers = async (req, res) => {
 
 const getUserbyID = async (req, res) => {
     try {
-        const { uid } = req.params
-        console.log("uid", uid)
-        const results = await pool.query("SELECT * FROM test WHERE uid = $1", [uid])
-        res.status(200).json({
-            info: results.rows[0]
-        })
-    } catch (err) {
-        console.error(err.message)
+        // const usersByID = await pool.query(
+        //     `SELECT * FROM test WHERE uid = $1`,
+        //     [req.user.uid]
+        // );
+        res.status(200).json(req.user);
+    } catch (error) {
+        res.status(500).json({
+            error: error,
+            success: false,
+        });
     }
-}
+};
 
-
-// UPDATE A USER FIRSTNAME
+// UPDATE USER PROFILE
 
 const updateUser = async (req, res) => {
     try {
-        const { uid } = req.params
-        const { firstname } = req.body;
-        const updateFirstName = await pool.query("UPDATE test SET firstName = $1 WHERE uid = $2", [firstname, uid])
-        res.json("updated firstname")
+        // const { uid } = req.params
+        const { firstname, lastname, email } = req.body;
+        const updateProfile = await pool.query("UPDATE test SET firstName = $1, lastname = $2, email = $3 WHERE uid = $4", [firstname, lastname, email, req.user.uid])
+        res.status(200).json({
+            msg: 'updated',
+            success: true,
+        });
     } catch (err) {
         console.error(err.message)
     }
@@ -128,9 +133,12 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const { uid } = req.params
-        const deleteUserProfile = await pool.query("DELETE FROM test WHERE uid = $1", [uid])
-        res.json("user deleted")
+        const deleteUserProfile = await pool.query("DELETE FROM test WHERE uid = $1", [req.user.uid])
+        // const deleteUserProfile = await pool.query("DELETE test, post FROM test INNER JOIN post ON test.uid = post.userid WHERE uid=$1", [userid])
+        res.status(200).json({
+            success: true,
+            msg: "user deleted"
+        })
     } catch (err) {
         console.error(err.message)
     }
@@ -139,19 +147,19 @@ const deleteUser = async (req, res) => {
 // LOGIN A USER
 
 const login = async (req, res) => {
-
     const { email, password } = req.body;
     try {
         const data = await pool.query(`SELECT * FROM test WHERE email= $1;`, [email]) //Verifying if the user exists in the database
-        const user = data.rows;
-        if (user.length === 0) {
+        const user = data.rows[0];
+        console.log('user', user)
+        if (!user || user.length === 0) {
             res.status(400).json({
                 error: "User is not registered, Sign Up first",
                 success: false,
             });
         }
         else {
-            bcrypt.compare(password, user[0].password, (err, result) => { //Comparing the hashed password
+            bcrypt.compare(password, user.password, (err, result) => { //Comparing the hashed password
                 if (err) {
                     res.status(500).json({
                         error: "Server error",
@@ -159,21 +167,23 @@ const login = async (req, res) => {
                 } else if (result === true) { //Checking if credentials match
                     const token = jwt.sign(
                         {
-                            email: email,
+                            email: user.email,
+                            uid: user.uid
                         },
                         process.env.SECRET_KEY
                     );
                     res.status(200).json({
                         success: true,
-                        email: email,
-                        token: token,
+                        email: user.email,
+                        uid: user.uid,
+                        jwt: token
                     });
                 }
                 else {
                     //Declaring the errors
                     if (result != true)
                         res.status(400).json({
-                            error: "Enter correct password!",
+                            error: "Incorrect password, please try again",
                             success: false,
                         });
                 }
@@ -189,4 +199,28 @@ const login = async (req, res) => {
     };
 };
 
-export { getAllUsers, getUserbyID, createNewUser, updateUser, deleteUser, login }
+// const getProfile = async (req, res) => {
+//     console.log("req.payload", req.payload);
+//     res.status(201).json(
+//         `authorized request for ${req.payload.email}`
+//     )
+// };
+
+const getProfile = async (req, res) => {
+    try {
+        // console.log("uid", req.userid);
+        const profileDetails = await pool.query(
+            // `SELECT avatar, username, email, name, userid FROM profiles, users WHERE profiles.userid = $1`,
+            `SELECT * FROM test WHERE uid = $1`,
+            [req.user.uid]
+        );
+        res.status(200).json(profileDetails.rows[0]);
+    } catch (error) {
+        res.status(500).json({
+            error: error,
+            success: false,
+        });
+    }
+};
+
+export { getAllUsers, getUserbyID, createNewUser, updateUser, deleteUser, login, getProfile }

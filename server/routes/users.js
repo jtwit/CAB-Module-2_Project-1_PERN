@@ -1,6 +1,7 @@
 import express from 'express';
-import { getAllUsers, getUserbyID, createNewUser, updateUser, deleteUser, login } from '../controller/usersController.js';
-import { createNewPost, getAllPosts } from '../controller/postsController.js';
+import { getAllUsers, getUserbyID, createNewUser, updateUser, deleteUser, login, getProfile } from '../controller/usersController.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+import { jwtAuth } from '../middleware/passport.js';
 
 const router = express.Router();
 
@@ -9,12 +10,12 @@ const router = express.Router();
 // });
 
 router.get("/", getAllUsers)
-router.get("/userbyid/:uid", getUserbyID)
+router.get("/user", jwtAuth, getUserbyID)
 router.post("/signup", createNewUser)
-router.put("/userbyid/:uid", updateUser)
-router.delete("/userbyid/:uid", deleteUser)
-router.post("/login", login);
-router.get("/allposts", getAllPosts)
-router.post("/post", createNewPost)
+router.put("/userbyid", jwtAuth, updateUser)
+router.delete("/userbyid", jwtAuth, deleteUser)
+router.post("/login", login)
+
+router.get("/profile", jwtAuth, getProfile);
 
 export default router;

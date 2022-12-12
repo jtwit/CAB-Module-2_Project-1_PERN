@@ -1,7 +1,37 @@
 CREATE DATABASE users;
 
-CREATE TABLE test (id SERIAL PRIMARY KEY, firstName VARCHAR(30), lastName VARCHAR(30));
+CREATE TABLE test (uid SERIAL PRIMARY KEY, firstName VARCHAR(30), lastName VARCHAR(30), email TEXT UNIQUE, password VARCHAR(255));
 
-INSERT INTO test (firstName, lastName) VALUES ("test1", "lastName1");
+CREATE TABLE post (pid SERIAL PRIMARY KEY, comment VARCHAR(1000), topic VARCHAR(100), location VARCHAR(1000), image VARCHAR(1000), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, CONSTRAINT testfk FOREIGN KEY (userid) REFERENCES test (uid) INTEGER ON DELETE CASCADE );
+
+CREATE TABLE comments (cid SERIAL PRIMARY KEY, comment VARCHAR(1000), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE test (uid SERIAL PRIMARY KEY, firstName VARCHAR(30), lastName VARCHAR(30), email TEXT UNIQUE, password VARCHAR(255));
+
+CREATE TABLE test (uid SERIAL PRIMARY KEY, firstName VARCHAR(30), lastName VARCHAR(30), email TEXT UNIQUE, password VARCHAR(255));
+
+
+
+
+
+
+
+INSERT INTO test (firstName, lastName, email, password) VALUES ("test", "test", "test@test.de", "hello123");
 
 SELECT * FROM test;
+
+ALTER TABLE comments ADD COLUMN userid INTEGER;
+
+ALTER TABLE likes ADD CONSTRAINT likesfk2 FOREIGN KEY (postid) REFERENCES post (pid) ON DELETE CASCADE;
+
+ALTER TABLE comments ADD CONSTRAINT commentsfk FOREIGN KEY (userid) REFERENCES test (uid) ON DELETE CASCADE;
+
+ALTER TABLE comments ADD COLUMN postid INTEGER;
+
+ALTER TABLE comments ADD CONSTRAINT commentsfk2 FOREIGN KEY (postid) REFERENCES post (pid) ON DELETE CASCADE;
+
+
+
+CREATE TABLE likes (lid SERIAL PRIMARY KEY, timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+INSERT INTO comments (comment) VALUES ('this is a test');
