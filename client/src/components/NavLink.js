@@ -55,14 +55,12 @@ const NavLink = () => {
             headers: myHeaders
         }
         try {
-            const response = await fetch("http://localhost:5000/users/profile", requestOptions)
+            const response = await fetch("https://pernapp.vercel.app/users/profile", requestOptions)
             const results = await response.json()
             console.log('results', results)
             setUser(results)
-
         } catch (err) {
             console.error(err.message)
-
         }
     }
     useEffect(() => {
@@ -104,7 +102,7 @@ const NavLink = () => {
                 />
                 <MenuList>
                     <MenuItem gap="10px"> <FontAwesomeIcon icon={faArrowRightToBracket} />
-                        {user ? <Button onClick={() => logout()}>Log out</Button> : <Link to='/login' >Log in</Link>}
+                        {user ? <MenuItem onClick={() => logout()}>Log out</MenuItem> : <Link to='/login' >Log in</Link>}
                     </MenuItem>
                     {user ? <MenuItem gap="10px"><FontAwesomeIcon icon={faPenToSquare} />
                         <Link to='/managemyaccount' >Manage My Account</Link>

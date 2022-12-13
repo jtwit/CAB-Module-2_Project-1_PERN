@@ -32,7 +32,7 @@ import Context from '../context/UserContext.js';
 
 const ManageAccount = (props) => {
     // const { user } = useContext(Context)
-    const backendUrl = "http://localhost:5000/users"
+    const backendUrl = "https://pernapp.vercel.app/users"
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
@@ -63,7 +63,7 @@ const ManageAccount = (props) => {
             headers: myHeaders
         }
         try {
-            const response = await fetch("http://localhost:5000/users/profile", requestOptions)
+            const response = await fetch("https://pernapp.vercel.app/users/profile", requestOptions)
             const results = await response.json()
             console.log('results', results)
             setUserData(results)
@@ -90,7 +90,7 @@ const ManageAccount = (props) => {
                 // credentials: 'include',
                 body: JSON.stringify(body)
             }
-            const response = await fetch("http://localhost:5000/users/userbyid", options);
+            const response = await fetch("https://pernapp.vercel.app/users/userbyid", options);
             const { success } = await response.json()
             console.log(response);
             setError(error)
@@ -116,7 +116,7 @@ const ManageAccount = (props) => {
                 method: "DELETE",
                 headers: myHeaders
             }
-            const deleteUser = await fetch("http://localhost:5000/users/userbyid", options)
+            const deleteUser = await fetch("https://pernapp.vercel.app/users/userbyid", options)
             const { success } = await deleteUser.json()
             console.log('deleteUser', deleteUser)
             if (success) {

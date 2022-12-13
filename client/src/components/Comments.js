@@ -43,7 +43,7 @@ const Comments = ({ comments, getComments }) => {
     // fetch comments
     // const getComments = async () => {
     //     try {
-    //         const response = await fetch(`http://localhost:5000/comments/${postid}`, requestOptions)
+    //         const response = await fetch(`https://pernapp.vercel.app/comments/${postid}`, requestOptions)
     //         const results = await response.json()
     //         setComments(results)
     //         console.log('comments', comments)
@@ -68,7 +68,7 @@ const Comments = ({ comments, getComments }) => {
     //             headers: myHeaders,
     //             body: JSON.stringify(body)
     //         }
-    //         const response = await fetch("http://localhost:5000/comments/postcomment", options);
+    //         const response = await fetch("https://pernapp.vercel.app/comments/postcomment", options);
     //         console.log(response);
     //         // window.location = "/";
     //     }

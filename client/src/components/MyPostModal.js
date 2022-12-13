@@ -49,7 +49,7 @@ const MyPostModal = ({ getPostsbyID }) => {
                 headers: myHeaders,
                 body: JSON.stringify(body)
             }
-            const response = await fetch("http://localhost:5000/posts/post", options);
+            const response = await fetch("https://pernapp.vercel.app/posts/post", options);
             const { success } = await response.json()
             console.log(response);
 

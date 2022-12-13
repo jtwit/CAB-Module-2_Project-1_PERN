@@ -75,7 +75,7 @@ const Posts = () => {
     // fetch posts
     const getPosts = async () => {
         try {
-            const response = await fetch("http://localhost:5000/posts/allposts", requestOptions)
+            const response = await fetch("https://pernapp.vercel.app/posts/allposts", requestOptions)
             const results = await response.json()
             const sortByTime = results.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
             setPosts(sortByTime.reverse())

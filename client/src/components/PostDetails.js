@@ -52,7 +52,6 @@ const PostDetails = ({ post }) => {
 
     // fetch likes
     const getLikes = async () => {
-
         const myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${localStorage.getItem('jwt')}`);
         myHeaders.append('Content-Type', 'application/json');
@@ -63,7 +62,7 @@ const PostDetails = ({ post }) => {
         // const postid = post.pid
         // console.log('postid', postid)
         try {
-            const response = await fetch(`http://localhost:5000/likes/${post.pid}`, requestOptions)
+            const response = await fetch(`https://pernapp.vercel.app/likes/${postid}`, requestOptions)
             const results = await response.json()
             setLikes(results)
             console.log('likes', likes)
@@ -87,7 +86,7 @@ const PostDetails = ({ post }) => {
             headers: myHeaders
         }
         try {
-            const response = await fetch(`http://localhost:5000/comments/${postid}`, requestOptions)
+            const response = await fetch(`https://pernapp.vercel.app/comments/${postid}`, requestOptions)
             const results = await response.json()
             const sortByTime = results.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
             setComments(sortByTime.reverse())
@@ -144,7 +143,7 @@ const PostDetails = ({ post }) => {
                 headers: myHeaders,
                 body: JSON.stringify(body)
             }
-            const response = await fetch("http://localhost:5000/likes/postlike", options);
+            const response = await fetch("https://pernapp.vercel.app/likes/postlike", options);
             console.log(response);
             // window.location = "/";
         }

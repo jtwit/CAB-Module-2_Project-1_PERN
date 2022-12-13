@@ -33,7 +33,7 @@ const DeletePostModal = ({ post, getPostsbyID }) => {
                 method: "DELETE",
                 headers: myHeaders
             }
-            const deletePost = await fetch(`http://localhost:5000/posts/post/${postid}`, options)
+            const deletePost = await fetch(`https://pernapp.vercel.app/posts/post/${postid}`, options)
             const { success } = await deletePost.json()
             console.log('success', success)
             if (success) {

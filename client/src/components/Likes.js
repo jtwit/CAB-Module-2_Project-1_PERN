@@ -36,7 +36,7 @@ const Likes = ({ likes }) => {
     //             method: "DELETE",
     //             headers: myHeaders
     //         }
-    //         const deleteLike = await fetch(`http://localhost:5000/likes/like/${likes.lid}`, options)
+    //         const deleteLike = await fetch(`https://pernapp.vercel.app/likes/like/${likes.lid}`, options)
     //         // const { success } = await deleteLike.json()
     //         // console.log('success', success)
     //         // if (success) {

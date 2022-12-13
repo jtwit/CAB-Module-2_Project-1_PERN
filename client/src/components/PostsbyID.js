@@ -73,7 +73,7 @@ const PostsbyID = () => {
 
     const getPostsbyID = async () => {
         try {
-            const response = await fetch("http://localhost:5000/posts/post", requestOptions)
+            const response = await fetch("https://pernapp.vercel.app/posts/post", requestOptions)
             const results = await response.json()
             console.log('results', results)
             // setPostsID(results)
@@ -102,7 +102,7 @@ const PostsbyID = () => {
                 method: "DELETE",
                 headers: myHeaders
             }
-            const deleteAllPosts = await fetch(`http://localhost:5000/posts/post`, options)
+            const deleteAllPosts = await fetch(`https://pernapp.vercel.app/posts/post`, options)
 
             const { success } = await deleteAllPosts.json()
             if (success) {
@@ -123,7 +123,7 @@ const PostsbyID = () => {
             headers: myHeaders
         }
         try {
-            const response = await fetch(`http://localhost:5000/likes/${pid}`, requestOptions)
+            const response = await fetch(`https://pernapp.vercel.app/likes/${pid}`, requestOptions)
             const results = await response.json()
             setLikes(results)
             console.log('likes', likes)
@@ -143,7 +143,7 @@ const PostsbyID = () => {
             headers: myHeaders
         }
         try {
-            const response = await fetch(`http://localhost:5000/comments/${pid}`, requestOptions)
+            const response = await fetch(`https://pernapp.vercel.app/comments/${pid}`, requestOptions)
             const results = await response.json()
             setComments(results)
             console.log('comments', comments)

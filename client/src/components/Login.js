@@ -28,7 +28,7 @@ import UserContext from '../context/UserContext'
 
 // import { AuthContext } from '../context/authContext';
 
-const backendUrl = "http://localhost:5000/users"
+const backendUrl = "https://pernapp.vercel.app/users"
 
 const Login = () => {
     // const { user } = useContext(Context)
@@ -89,7 +89,7 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:5000/users/profile", requestOptions)
+            const response = await fetch(`${backendUrl}/profile`, requestOptions)
             const results = await response.json()
             console.log('results', results)
             setUserData(results)

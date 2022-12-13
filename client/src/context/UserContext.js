@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export const UserContext = createContext();
 
 // provider
-const backendUrl = "http://localhost:5000/users"
+const backendUrl = "https://pernapp.vercel.app/users"
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
             headers: myHeaders
         }
         try {
-            const response = await fetch("http://localhost:5000/users/user", requestOptions)
+            const response = await fetch("https://pernapp.vercel.app/users/user", requestOptions)
             const results = await response.json()
             console.log('results', results)
             setUser(results)

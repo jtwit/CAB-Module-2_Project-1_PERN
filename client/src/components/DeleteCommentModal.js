@@ -32,7 +32,7 @@ const DeleteCommentModal = ({ comment, getComments }) => {
                 method: "DELETE",
                 headers: myHeaders
             }
-            const deleteComment = await fetch(`http://localhost:5000/comments/comment/${cid}`, options)
+            const deleteComment = await fetch(`https://pernapp.vercel.app/comments/comment/${cid}`, options)
 
             const { success } = await deleteComment.json()
             console.log('success', success)
